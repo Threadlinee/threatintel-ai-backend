@@ -110,10 +110,10 @@ async function callThreatIntelAI(userMessage, conversationId = 'default') {
     const response = await axios.post(
       OPENROUTER_API_URL,
       {
-        model: 'nousresearch/deephermes-3-llama-3-8b-preview:free', // Changed to a free model
+        model:"openai/gpt-3.5-turbo-0613",
         messages: messagesToSend,
         temperature: 0.2, // Lower for precise technical responses
-        max_tokens: 4096,
+        max_tokens: 10000,
         top_p: 0.9,
         presence_penalty: 0.1,
         frequency_penalty: 0.1,
@@ -121,7 +121,7 @@ async function callThreatIntelAI(userMessage, conversationId = 'default') {
       {
         headers: {
           'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-          'HTTP-Referer': process.env.APP_URL || 'http://localhost:3000',
+          'HTTP-Referer': process.env.APP_URL,
           'X-Title': 'ThreatIntel AI - Advanced Cybersecurity Assistant',
           'Content-Type': 'application/json'
         }
