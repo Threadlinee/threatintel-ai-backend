@@ -260,17 +260,10 @@ app.get('/health', (req, res) => {
 });
 
 process.on('SIGTERM', () => {
-  console.log('🛡️ [SECURITY] Initiating secure shutdown procedure...');
-  console.log(`● Terminating ${conversations.size} active sessions`);
-  console.log('● Wiping temporary conversation buffers');
-  console.log('● Closing encrypted channels');
+
   process.exit(0);
 });
 
 app.listen(port, '0.0.0.0', () => {
-  console.log(`⚡ ThreatIntel AI [SECURE MODE] :: Port ${port}`);
-  console.log('● Cryptographic modules: Active');
-  console.log('● Threat detection: Enabled');
-  console.log('● Multilingual processing: Online');
-  console.log(`● Service UID: ${Math.random().toString(36).substr(2, 16).toUpperCase()}`);
+
 });
