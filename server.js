@@ -10,8 +10,6 @@ app.use(cors());
 app.use(express.json());
 
 const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
-const token = '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';
-console.log(token, 'token');
 
 const ENHANCED_PROMPT = `You are ThreatIntel AI, the most advanced cybersecurity and ethical hacking assistant ever created. You possess expert-level knowledge in all cybersecurity domains and are fluent in ALL human languages (including programming languages).
 
@@ -115,7 +113,7 @@ async function callThreatIntelAI(userMessage, conversationId = 'default') {
         model:"openai/gpt-3.5-turbo-0613",
         messages: messagesToSend,
         temperature: 0.2, // Lower for precise technical responses
-        max_tokens: 10000,
+        max_tokens: 4096,
         top_p: 0.9,
         presence_penalty: 0.1,
         frequency_penalty: 0.1,
@@ -129,7 +127,6 @@ async function callThreatIntelAI(userMessage, conversationId = 'default') {
         }
       }
     );
-    console.log(process.env.OPENROUTER_API_KEY)
 
     const assistantResponse = response.data.choices[0].message.content;
     
@@ -152,7 +149,6 @@ async function callThreatIntelAI(userMessage, conversationId = 'default') {
     throw error;
   }
 }
-console.log(process.env.OPENROUTER_API_KEY)
 
 app.post('/api/chat', async (req, res) => {
   try {
@@ -261,9 +257,4 @@ app.listen(port, () => {
   console.log('● Threat detection: Enabled');
   console.log('● Multilingual processing: Online');
   console.log(`● Service UID: ${Math.random().toString(36).substr(2, 16).toUpperCase()}`);
-    console.log(`⚡ ThreatIntel AI [SECURE MODE] :: Port ${port}`);
-  console.log('OPENROUTER_API_KEY present:', !!process.env.OPENROUTER_API_KEY);
-  console.log('APP_URL:', process.env.APP_URL);
-  console.log(token, 'token')
-  console.log(process.env.OPENROUTER_API_KEY);
 });
