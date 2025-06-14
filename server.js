@@ -6,13 +6,23 @@ const axios = require('axios');
 const app = express();
 const port = process.env.PORT || 3001;
 
+const allowedOrigins = [
+  'https://threatintel-ai.vercel.app',
+  'https://threatintel-ai-1.vercel.app',
+  'http://localhost:3000'
+];
+
 app.use(cors({
-  origin: [
-    'https://threatintel-ai.vercel.app',
-    'https://threatintel-ai-1.vercel.app',
-    'http://localhost:3000'
-  ]
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
 }));
+
 app.use(express.json());
 
 const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
@@ -257,7 +267,7 @@ process.on('SIGTERM', () => {
   process.exit(0);
 });
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`⚡ ThreatIntel AI [SECURE MODE] :: Port ${port}`);
   console.log('● Cryptographic modules: Active');
   console.log('● Threat detection: Enabled');
