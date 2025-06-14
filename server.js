@@ -197,7 +197,7 @@ app.post('/api/chat/new', (req, res) => {
   
   res.json({ 
     conversationId,
-    greeting: "🔐 [SYSTEM] ThreatIntel AI initialized. Authentication valid. Secure channel established.\n\n" +
+    greeting: "🔐 ThreatIntel AI initialized. Authentication valid. Secure channel established.\n\n" +
              "I am ThreatIntel AI, advanced cybersecurity assistant created by Dion Abazi (CEH).\n" +
              "Current capabilities: Penetration testing • Threat analysis • Forensic investigation • Secure coding\n" +
              "Available in ALL languages. Ready for tasking."
