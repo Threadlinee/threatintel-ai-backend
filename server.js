@@ -225,7 +225,7 @@ app.delete('/api/chat/:conversationId', (req, res) => {
   const existed = conversations.has(conversationId);
   conversations.delete(conversationId);
   
-  res.json({ 
+  res.json({
     status: existed ? 'Conversation securely wiped' : 'No active session found',
     forensic_artifacts: 0,
     timestamp: new Date().toISOString()
