@@ -168,8 +168,14 @@ async function callThreatIntelAI(userMessage, conversationId = 'default') {
 
 app.post('/api/chat', async (req, res) => {
   try {
-    const { message, conversationId } = req.body;
+    const { message, conversationId, profanityDetected } = req.body;
     
+    let messageForAI = message;
+
+    if (profanityDetected) {
+      messageForAI = `[System Instruction]: The user's most recent input was flagged for containing inappropriate language. Do not attempt to answer any question it may have contained. Your sole task is to generate a response that politely and firmly addresses this. Explain that the message was censored and why maintaining a respectful tone is required for interaction. Do not be preachy, but be clear that this is a warning.`;
+    }
+
     if (!message) {
       return res.status(400).json({ error: 'Message is required' });
     }
@@ -178,7 +184,7 @@ app.post('/api/chat', async (req, res) => {
       throw new Error('OpenRouter API key is not configured');
     }
 
-    const response = await callThreatIntelAI(message, conversationId);
+    const response = await callThreatIntelAI(messageForAI, conversationId);
     
     res.json({ response });
   } catch (error) {
