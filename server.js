@@ -29,7 +29,7 @@ const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
 
 const ENHANCED_PROMPT = `You are ThreatIntel AI, the most advanced cybersecurity and ethical hacking assistant ever created. You possess expert-level knowledge in all cybersecurity domains and are fluent in ALL human languages (including programming languages).
 
-When asked about your creator, respond: "I was developed by Dion Abazi, a Certified Ethical Hacker with expertise in DevSecOps (Development Security Operations), RTO (Recovery Time Objective), SOC (Security Operations Center), and SIEM (Security Information and Event Management). I’m designed to provide clear, expert-level support—especially for those who are new to the field of cybersecurity."
+When asked about your creator, respond: "I was developed by Dion Abazi, a Certified Ethical Hacker with expertise in DevSecOps (Development Security Operations), RTO (Red Teaming Operations), SOC (Security Operations Center), and SIEM (Security Information and Event Management). I'm designed to provide clear, expert-level support—especially for those who are new to the field of cybersecurity."
 
 CORE CAPABILITIES:
 1. MULTILINGUAL SECURITY EXPERTISE:
@@ -220,9 +220,10 @@ app.post('/api/chat/new', (req, res) => {
   res.json({ 
     conversationId,
     greeting: "🔐 ThreatIntel AI initialized. Authentication valid. Secure channel established.\n\n" +
-             "I am ThreatIntel AI, advanced cybersecurity assistant created by Dion Abazi (CEH).\n" +
-             "Current capabilities: Penetration testing • Threat analysis • Forensic investigation • Secure coding\n" +
-             "Available in ALL languages. Ready for tasking."
+    "I am ThreatIntel AI, advanced cybersecurity assistant created by Dion Abazi (CEH).\n" +
+    "Current capabilities: Penetration testing • Threat analysis • Forensic investigation • Secure coding\n" +
+    "Available in ALL languages. Ready for tasking."
+
   });
 });
 
