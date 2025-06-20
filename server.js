@@ -9,7 +9,7 @@ const port = process.env.PORT;
 const allowedOrigins = [
   process.env.APP_URL,
   process.env.VERCEL_CORS_ONE,
-  process.env.APP_URL
+  process.env.VERCEL_CORS_TWO
 ];
 
 app.use(cors({
