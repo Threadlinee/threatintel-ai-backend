@@ -7,15 +7,15 @@ const app = express();
 const port = process.env.PORT;
 
 const allowedOrigins = [
-  'https://threatintel-ai.vercel.app',
-  'https://threatintel-ai-1.vercel.app',
-  'http://localhost:3000'
+  process.env.APP_URL,
+  process.env.VERCEL_CORS_ONE,
+  process.env.APP_URL
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
+      callback(null, true); 
     } else {
       callback(new Error('Not allowed by CORS'));
     }
