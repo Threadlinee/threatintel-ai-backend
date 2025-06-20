@@ -202,12 +202,7 @@ app.post('/api/chat/new', (req, res) => {
   
   res.json({ 
     conversationId,
-    greeting: "🔐 ThreatIntel AI System Online\n\n" +
-   "I am ThreatIntel AI — your advanced cybersecurity assistant.\n" +
-   "Capabilities: Penetration Testing • Threat Analysis • Forensic Investigation • Secure Coding\n" +
-   "Multilingual. Ready for deployment."
-
-
+    greeting: "🛡️ ThreatIntel AI Online — Advanced Cybersecurity Assistant. Ready for your command."
   });
 });
 
