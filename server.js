@@ -112,17 +112,17 @@ async function callThreatIntelAI(userMessage, conversationId = 'default') {
       {
         model:"openai/gpt-3.5-turbo-0613",
         messages: messagesToSend,
-        temperature: 0.2, // Lower for precise technical responses
-        max_tokens: 4096,
-        top_p: 0.9,
-        presence_penalty: 0.1,
-        frequency_penalty: 0.1,
+        // temperature: 0.2, // Lower for precise technical responses
+        // max_tokens: 4096,
+        // top_p: 0.9,
+        // presence_penalty: 0.1,
+        // frequency_penalty: 0.1,
       },
       {
         headers: {
           'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-          'HTTP-Referer': process.env.APP_URL,
-          'X-Title': 'ThreatIntel AI - Advanced Cybersecurity Assistant',
+          // 'HTTP-Referer': process.env.APP_URL,
+          // 'X-Title': 'ThreatIntel AI - Advanced Cybersecurity Assistant',
           'Content-Type': 'application/json'
         }
       }
