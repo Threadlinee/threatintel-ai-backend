@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const fs = require('fs');
 
 const app = express();
 const port = process.env.PORT;
@@ -152,7 +153,21 @@ async function callThreatIntelAI(userMessage, conversationId = 'default') {
 app.post('/api/chat', async (req, res) => {
   try {
     const { message, conversationId, profanityDetected } = req.body;
-    
+
+    // If the message is very short or unclear, reply with a neutral clarification
+    const unclearInputs = ['?', 'what', 'who', 'help', 'pls', 'plz', 'idk', 'huh', 'eh', 'yo', 'sup', 'ok', 'okay', 'hi', 'hello', 'hey'];
+    const neutralReplies = [
+      'How may I help you?',
+      "I don't understand the question."
+    ];
+    if (
+      typeof message === 'string' &&
+      (message.trim().length <= 3 || unclearInputs.includes(message.trim().toLowerCase()))
+    ) {
+      const reply = neutralReplies[Math.floor(Math.random() * neutralReplies.length)];
+      return res.json({ response: reply });
+    }
+
     let messageForAI = message;
 
     if (profanityDetected) {
