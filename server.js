@@ -3,6 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const fs = require('fs');
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
+const pdfParse = require('pdf-parse');
 
 const app = express();
 const port = process.env.PORT;
@@ -85,7 +88,7 @@ After that, your purpose is to be the ultimate source of information and analysi
 
 const conversations = new Map();
 
-async function callThreatIntelAI(userMessage, conversationId = 'default') {
+async function callThreatIntelAI(userMessage, conversationId = 'default', imageBase64 = null) {
   try {
     if (!conversations.has(conversationId)) {
       conversations.set(conversationId, [
@@ -150,25 +153,30 @@ async function callThreatIntelAI(userMessage, conversationId = 'default') {
   }
 }
 
-app.post('/api/chat', async (req, res) => {
+app.post('/api/chat', upload.single('file'), async (req, res) => {
   try {
     const { message, conversationId, profanityDetected } = req.body;
+    let fileText = '';
+    let imageBase64 = null;
 
-    // If the message is very short or unclear, reply with a neutral clarification
-    const unclearInputs = ['?', 'what', 'who', 'help', 'pls', 'plz', 'idk', 'huh', 'eh', 'yo', 'sup', 'ok', 'okay', 'hi', 'hello', 'hey'];
-    const neutralReplies = [
-      'How may I help you?',
-      "I don't understand the question."
-    ];
-    if (
-      typeof message === 'string' &&
-      (message.trim().length <= 3 || unclearInputs.includes(message.trim().toLowerCase()))
-    ) {
-      const reply = neutralReplies[Math.floor(Math.random() * neutralReplies.length)];
-      return res.json({ response: reply });
+    if (req.file) {
+      const mime = req.file.mimetype;
+      if (mime.startsWith('image/')) {
+        imageBase64 = req.file.buffer.toString('base64');
+      } else if (mime === 'application/pdf') {
+        const data = await pdfParse(req.file.buffer);
+        fileText = data.text.slice(0, 2000); // limit for prompt
+      } else if (mime === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
+        fileText = '[PowerPoint file attached. Text extraction not implemented in this snippet.]';
+      } else {
+        fileText = '[Unsupported file type attached.]';
+      }
     }
 
     let messageForAI = message;
+    if (fileText) {
+      messageForAI += `\n\n[Attached file content: ${fileText}]`;
+    }
 
     if (profanityDetected) {
       messageForAI = `[System Instruction]: The user's most recent input was flagged for containing inappropriate language. Do not attempt to answer any question it may have contained. Your sole task is to generate a response that politely and firmly addresses this. Explain that the message was censored and why maintaining a respectful tone is required for interaction. Do not be preachy, but be clear that this is a warning.`;
@@ -182,7 +190,7 @@ app.post('/api/chat', async (req, res) => {
       throw new Error('OpenRouter API key is not configured');
     }
 
-    const response = await callThreatIntelAI(messageForAI, conversationId);
+    const response = await callThreatIntelAI(messageForAI, conversationId, imageBase64);
     
     res.json({ response });
   } catch (error) {
