@@ -178,10 +178,6 @@ app.post('/api/chat', upload.single('file'), async (req, res) => {
       messageForAI += `\n\n[Attached file content: ${fileText}]`;
     }
 
-    if (profanityDetected) {
-      messageForAI = `[System Instruction]: The user's most recent input was flagged for containing inappropriate language. Do not attempt to answer any question it may have contained. Your sole task is to generate a response that politely and firmly addresses this. Explain that the message was censored and why maintaining a respectful tone is required for interaction. Do not be preachy, but be clear that this is a warning.`;
-    }
-
     if (!message) {
       return res.status(400).json({ error: 'Message is required' });
     }
