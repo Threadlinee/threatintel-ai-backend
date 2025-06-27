@@ -153,6 +153,12 @@ async function callThreatIntelAI(userMessage, conversationId = 'default', imageB
       ]);
     }
 
+    const maxLines = 5300;
+    let responseLines = assistantResponse.split('\n');
+    if (responseLines.length > maxLines) {
+      assistantResponse = responseLines.slice(0, maxLines).join('\n') + '\n... [response truncated: max 5300 lines reached]';
+    }
+
     return assistantResponse;
   } catch (error) {
     console.error('Error calling ThreatIntel AI:', error);
