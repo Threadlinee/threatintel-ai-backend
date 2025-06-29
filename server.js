@@ -120,7 +120,7 @@ async function callThreatIntelAI(userMessage, conversationId = 'default', imageB
     const response = await axios.post(
       OPENROUTER_API_URL,
       {
-        model:"openai/gpt-3.5-turbo-0613",
+        model:"mistralai/mistral-small-3.2-24b-instruct:free",
         messages: messagesToSend,
         // temperature: 0.2, // Lower for precise technical responses
         // max_tokens: 4096,
