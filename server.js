@@ -122,7 +122,6 @@ async function callThreatIntelAI(userMessage, conversationId = 'default', imageB
       {
         model:"mistralai/mistral-small-3.2-24b-instruct:free",
         messages: messagesToSend,
-        // temperature: 0.2, // Lower for precise technical responses
       },
       {
         headers: {
