@@ -129,7 +129,6 @@ async function callThreatIntelAI(userMessage, conversationId = 'default', imageB
       {
         headers: {
           'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-          // 'HTTP-Referer': process.env.APP_URL,
           'Content-Type': 'application/json'
         }
       }
