@@ -126,7 +126,6 @@ async function callThreatIntelAI(userMessage, conversationId = 'default', imageB
         // max_tokens: 4096,
         // top_p: 0.9,
         // presence_penalty: 0.1,
-        // frequency_penalty: 0.1,
       },
       {
         headers: {
